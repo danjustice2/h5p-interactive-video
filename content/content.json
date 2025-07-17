@@ -1,0 +1,31 @@
+{
+  "interactiveVideo": {
+    "video": {
+      "files": [],
+      "startScreenOptions": {
+        "title": "Interactive Video",
+        "hideStartTitle": false
+      }
+    },
+    "assets": {
+      "interactions": [],
+      "bookmarks": []
+    }
+  },
+  "override": {
+    "autoplay": false,
+    "loop": false,
+    "showBookmarksmenuOnLoad": false,
+    "showRewind10": true,
+    "preventSkipping": false,
+    "deactivateSound": false
+  },
+  "summary": {
+    "task": {
+      "library": "H5P.Summary 1.10",
+      "params": {},
+      "subContentId": "summary"
+    },
+    "displayAt": 3
+  }
+}

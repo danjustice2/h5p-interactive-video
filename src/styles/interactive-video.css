@@ -1602,160 +1602,6 @@
   transform: translateX(-50%);
 }
 
-.h5p-interaction.h5p-poster.h5p-questionnaire-interaction .h5p-interaction-outer {
-  overflow-y: hidden;
-}
-
-.h5p-interactive-video .h5p-dialog.h5p-big[data-lib="H5P.Questionnaire"] .h5p-questionnaire-wrapper {
-  height: 100%;
-  width: 100%;
-}
-
-.h5p-interactive-video .h5p-dialog[data-lib="H5P.Questionnaire"] .h5p-dialog-titlebar {
-  background-color: #2269a9;
-  border-bottom: 1px solid #2269a9;
-}
-
-.h5p-interactive-video .h5p-dialog[data-lib="H5P.Questionnaire"] .h5p-dialog-close:before {
-  color: #FFF;
-}
-
-.h5p-interactive-video .h5p-confirmation-dialog-background {
-  z-index: 101;
-}
-.h5p-interactive-video .goto-clickable {
-  cursor: pointer;
-}
-.h5p-interactive-video .goto-clickable.h5p-text {
-  cursor: pointer;
-  display: block;
-  margin: 0;
-  padding: 1em;
-  min-height: 100%;
-  text-decoration: none;
-  color: #313131;
-}
-.h5p-interactive-video .h5p-interaction.h5p-poster.goto-clickable-visualize .h5p-interaction-outer {
-  position: static;
-}
-.h5p-interactive-video .h5p-poster.goto-clickable-visualize,
-.h5p-interactive-video .h5p-dialog.goto-clickable-visualize .h5p-dialog-inner {
-  border: solid 2px #1d5cff;
-  transition: border 0.3s, box-shadow 0.3s;
-}
-.h5p-interactive-video .h5p-poster.goto-clickable-visualize.h5p-goto-timecode,
-.h5p-interactive-video .h5p-dialog.goto-clickable-visualize.h5p-goto-timecode .h5p-dialog-inner {
-  border-color: var(--h5p-theme-main-cta-base);
-}
-
-.h5p-interactive-video .h5p-dialog.goto-clickable-visualize .h5p-dialog-inner {
-  box-sizing: border-box;
-  min-height: calc(2.5em - 1px);
-  height: auto;
-}
-.h5p-interactive-video .h5p-dialog.goto-clickable-visualize .h5p-dialog-inner:hover {
-  border-color: #003fdf;
-}
-.h5p-interactive-video .h5p-poster.goto-clickable-visualize {
-  box-shadow: 2px 2px 2px rgba(0, 0, 0, 0.2);
-}
-
-.h5p-interactive-video .h5p-poster.goto-clickable-visualize.h5p-box-shadow-disabled {
-  box-shadow: none;
-}
-
-.h5p-interactive-video .h5p-poster.goto-clickable-visualize:hover {
-  border-color: #003fdf;
-  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.4);
-}
-.h5p-interactive-video .h5p-poster.goto-clickable-visualize.h5p-goto-timecode:hover,
-.h5p-interactive-video .h5p-dialog.goto-clickable-visualize.h5p-goto-timecode .h5p-dialog-inner:hover {
-  border-color: #00796f;
-}
-
-.h5p-interactive-video .h5p-poster.goto-clickable-visualize .h5p-dialog-inner,
-.h5p-interactive-video .h5p-dialog.goto-clickable-visualize .h5p-dialog-inner {
-  position: relative;
-}
-
-.h5p-interactive-video .h5p-poster.goto-clickable-visualize .goto-clickable:before,
-.h5p-interactive-video .h5p-dialog.goto-clickable-visualize .h5p-dialog-inner:before {
-  width: 0;
-  height: 0;
-  position: absolute;
-  top: 0;
-  left: 0;
-  border-top: 1.5em solid #1d5cff;
-  border-right: 1.5em solid transparent;
-  opacity: 0.8;
-  content: '';
-  z-index: 1;
-  cursor: pointer;
-  pointer-events: none;
-  transition: border-top-color 0.3s;
-}
-.h5p-interactive-video .h5p-poster.goto-clickable-visualize.h5p-goto-timecode .goto-clickable:before,
-.h5p-interactive-video .h5p-dialog.goto-clickable-visualize.h5p-goto-timecode .h5p-dialog-inner:before {
-  border-top-color: #08a497;
-}
-
-.h5p-interactive-video .h5p-poster.goto-clickable-visualize .goto-clickable:hover:before,
-.h5p-interactive-video .h5p-dialog.goto-clickable-visualize .h5p-dialog-inner:hover:before {
-  border-top-color: #003fdf;
-}
-.h5p-interactive-video .h5p-poster.goto-clickable-visualize.h5p-goto-timecode .goto-clickable:hover:before,
-.h5p-interactive-video .h5p-dialog.goto-clickable-visualize.h5p-goto-timecode .h5p-dialog-inner:hover:before {
-  border-top-color: #027e74;
-}
-
-.h5p-interactive-video .h5p-poster.goto-clickable-visualize .goto-clickable:focus:before,
-.h5p-interactive-video .h5p-dialog.goto-clickable-visualize .h5p-dialog-inner:focus:before,
-.h5p-interactive-video .h5p-poster.goto-clickable-visualize.h5p-goto-timecode .goto-clickable:focus:before,
-.h5p-interactive-video .h5p-dialog.goto-clickable-visualize.h5p-goto-timecode .h5p-dialog-inner:focus:before {
-  border-top-color: transparent;
-}
-
-.h5p-interactive-video .h5p-dialog.goto-clickable-visualize .h5p-dialog-inner:before {
-  top: initial;
-}
-.h5p-interactive-video .h5p-poster.goto-clickable-visualize .goto-clickable:after,
-.h5p-interactive-video .h5p-dialog.goto-clickable-visualize .h5p-dialog-inner:after {
-  position: absolute;
-  width: 1em;
-  height: 1em;
-  top: 0.25em;
-  left: 0.25em;
-  font-family: 'H5PFontAwesome4';
-  font-size: 0.7em;
-  content: "\f08e";
-  color: #fff;
-  line-height: 1;
-  text-align: center;
-  vertical-align: baseline;
-  z-index: 1;
-  cursor: pointer;
-  pointer-events: none;
-  transition: color 0.3s;
-}
-.h5p-interactive-video .h5p-poster.goto-clickable-visualize.h5p-goto-timecode .goto-clickable:after,
-.h5p-interactive-video .h5p-dialog.goto-clickable-visualize.h5p-goto-timecode .h5p-dialog-inner:after {
-  content: "\f064";
-  transform: rotate(24deg) translateX(-2px);
-}
-.h5p-interactive-video .h5p-poster.goto-clickable-visualize .goto-clickable:focus:after,
-.h5p-interactive-video .h5p-dialog.goto-clickable-visualize .h5p-dialog-inner:focus:after {
-  color: #1d5cff;
-}
-.h5p-interactive-video .h5p-poster.goto-clickable-visualize.h5p-goto-timecode .goto-clickable:focus:after,
-.h5p-interactive-video .h5p-dialog.goto-clickable-visualize.h5p-goto-timecode .h5p-dialog-inner:focus:after {
-  color: var(--h5p-theme-main-cta-base);
-}
-.h5p-interactive-video .h5p-dialog.h5p-big.goto-clickable-visualize[data-lib="H5P.Image"] .h5p-dialog-inner:after {
-  top: 0.25em;
-}
-.h5p-interactive-video .h5p-dialog.h5p-big[data-lib="H5P.Image"] .h5p-image.goto-clickable {
-  width: 100%;
-}
 .h5p-interactive-video .h5p-interaction-continue-button {
   cursor: pointer;
   text-transform: uppercase;
@@ -1942,4 +1788,14 @@
   position: absolute;
   cursor: pointer;
   pointer-events: none;
+}
+
+/* Hide controls when hideControls option is enabled */
+.h5p-interactive-video.h5p-hide-controls .h5p-controls {
+  display: none !important;
+}
+
+/* Ensure video wrapper takes full space when controls are hidden */
+.h5p-interactive-video.h5p-hide-controls .h5p-video-wrapper {
+  bottom: 0;
 }

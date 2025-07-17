@@ -1,0 +1,15 @@
+{
+  "title": "Interactive Video Enhanced",
+  "language": "en",
+  "mainLibrary": "H5P.InteractiveVideo",
+  "embedTypes": ["iframe"],
+  "license": "MIT",
+  "defaultLanguage": "en",
+  "preloadedDependencies": [
+    {
+      "machineName": "H5P.InteractiveVideo",
+      "majorVersion": 1,
+      "minorVersion": 27
+    }
+  ]
+}

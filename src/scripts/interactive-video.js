@@ -111,6 +111,8 @@ function InteractiveVideo(params, id, contentData) {
     self.showBookmarksmenuOnLoad = (params.override.showBookmarksmenuOnLoad !== undefined ? params.override.showBookmarksmenuOnLoad : false);
     self.preventSkippingMode = params.override.preventSkippingMode || 'none';
     self.deactivateSound = params.override.deactivateSound || false;
+    self.hideControls = params.override.hideControls || false;
+    self.disableKeyboardControls = params.override.disableKeyboardControls || false;
   }
   // Translated UI text defaults
   self.l10n = $.extend({
@@ -152,11 +154,13 @@ function InteractiveVideo(params, id, contentData) {
     howToCreateInteractions: 'Play the video to start creating interactions'
   }, params.l10n);
 
-  // Add shortcut key to label
-  self.l10n.play += ' (k)';
-  self.l10n.pause += ' (k)';
-  self.l10n.mute += ' (m)';
-  self.l10n.unmute += ' (m)';
+  // Add shortcut key to label (only if keyboard controls are not disabled)
+  if (!self.disableKeyboardControls) {
+    self.l10n.play += ' (k)';
+    self.l10n.pause += ' (k)';
+    self.l10n.mute += ' (m)';
+    self.l10n.unmute += ' (m)';
+  }
 
   // Make it possible to restore from previous state
   if (contentData &&
@@ -340,9 +344,11 @@ function InteractiveVideo(params, id, contentData) {
       switch (state) {
         case H5P.Video.ENDED: {
           self.currentState = H5P.Video.ENDED;
-          self.controls.$play
-            .addClass('h5p-pause')
-            .attr('aria-label', self.l10n.play);
+          if (self.controls && self.controls.$play) {
+            self.controls.$play
+              .addClass('h5p-pause')
+              .attr('aria-label', self.l10n.play);
+          }
 
           self.timeUpdate(self.video.getCurrentTime());
           self.updateCurrentTime(self.getDuration());
@@ -395,14 +401,16 @@ function InteractiveVideo(params, id, contentData) {
           }
 
           self.currentState = H5P.Video.PLAYING;
-          self.controls?.$play
-            .removeClass('h5p-pause')
-            .attr('aria-label', self.l10n.pause);
+          if (self.controls && self.controls.$play) {
+            self.controls.$play
+              .removeClass('h5p-pause')
+              .attr('aria-label', self.l10n.pause);
 
-          // refocus for re-read button title by screen reader
-          if (self.controls?.$play.is(":focus")) {
-            self.controls.$play.blur();
-            self.controls.$play.focus();
+            // refocus for re-read button title by screen reader
+            if (self.controls.$play.is(":focus")) {
+              self.controls.$play.blur();
+              self.controls.$play.focus();
+            }
           }
 
           self.timeUpdate(self.video.getCurrentTime());
@@ -410,17 +418,22 @@ function InteractiveVideo(params, id, contentData) {
 
         case H5P.Video.PAUSED:
           self.currentState = H5P.Video.PAUSED;
-          self.controls.$play
-            .addClass('h5p-pause')
-            .attr('aria-label', self.l10n.play);
+          if (self.controls && self.controls.$play) {
+            self.controls.$play
+              .addClass('h5p-pause')
+              .attr('aria-label', self.l10n.play);
+            
+            // refocus for re-read button title by screen reader
+            if (self.controls.$play.is(":focus")) {
+              self.controls.$play.blur();
+              self.controls.$play.focus();
+            }
+          }
+          
           // refocus for re-read button title by screen reader
           if (self.focusInteraction) {
             self.focusInteraction.focusOnFirstTabbableElement();
             delete self.focusInteraction;
-          }
-          else if (self.controls.$play.is(":focus")) {
-            self.controls.$play.blur();
-            self.controls.$play.focus();
           }
 
           self.timeUpdate(self.video.getCurrentTime());
@@ -469,13 +482,15 @@ function InteractiveVideo(params, id, contentData) {
     self.on('enterFullScreen', function () {
       self.hasFullScreen = true;
       self.$container.parent('.h5p-content').css('height', '100%');
-      self.controls.$fullscreen
-        .addClass('h5p-exit')
-        .attr('aria-label', self.l10n.exitFullscreen);
+      if (self.controls && self.controls.$fullscreen) {
+        self.controls.$fullscreen
+          .addClass('h5p-exit')
+          .attr('aria-label', self.l10n.exitFullscreen);
 
-      // refocus for re-read button title by screen reader
-      self.controls.$fullscreen.blur();
-      self.controls.$fullscreen.focus();
+        // refocus for re-read button title by screen reader
+        self.controls.$fullscreen.blur();
+        self.controls.$fullscreen.focus();
+      }
 
       self.resizeInteractions();
       // Give the DOM some time for repositioning, takes longer for fullscreen on mobile
@@ -494,13 +509,15 @@ function InteractiveVideo(params, id, contentData) {
 
       self.hasFullScreen = false;
       self.$container.parent('.h5p-content').css('height', '');
-      self.controls.$fullscreen
-        .removeClass('h5p-exit')
-        .attr('aria-label', self.l10n.fullscreen);
+      if (self.controls && self.controls.$fullscreen) {
+        self.controls.$fullscreen
+          .removeClass('h5p-exit')
+          .attr('aria-label', self.l10n.fullscreen);
 
-      // refocus for re-read button title by screen reader
-      self.controls.$fullscreen.blur();
-      self.controls.$fullscreen.focus();
+        // refocus for re-read button title by screen reader
+        self.controls.$fullscreen.blur();
+        self.controls.$fullscreen.focus();
+      }
 
       self.resizeInteractions();
 
@@ -529,6 +546,19 @@ function InteractiveVideo(params, id, contentData) {
    * Toggle pause/play
    */
   self.togglePlayPause = () => {
+    // If controls are hidden, just toggle video playback directly
+    if (self.hideControls || !self.controls || !self.controls.$play) {
+      if (self.currentState === H5P.Video.PLAYING || self.currentState === H5P.Video.BUFFERING) {
+        self.video.pause();
+      } else {
+        self.video.play();
+        self.toggleEndscreen(false);
+        self.closePopupMenus();
+      }
+      self.handleAnswered();
+      return;
+    }
+
     var disabled = self.isDisabled(self.controls.$play);
 
     if (self.controls.$play.hasClass('h5p-pause') && !disabled) {
@@ -558,6 +588,18 @@ function InteractiveVideo(params, id, contentData) {
    * @param {Boolean} [refocus=true]
    */
   self.toggleMute = (refocus = true) => {
+    // If controls are hidden or volume control is not available, use video API directly
+    if (self.hideControls || !self.controls || !self.controls.$volume) {
+      if (!self.deactivateSound) {
+        if (self.video.isMuted()) {
+          self.video.unMute();
+        } else {
+          self.video.mute();
+        }
+      }
+      return;
+    }
+
     const $muteButton = self.controls.$volume;
 
     if (!self.deactivateSound) {
@@ -720,6 +762,17 @@ InteractiveVideo.prototype.attach = function ($container) {
   }
 
   $container.addClass('h5p-interactive-video h5p-theme').html('');
+  
+  // Add CSS class to hide controls if the option is enabled
+  if (this.hideControls) {
+    $container.addClass('h5p-hide-controls');
+  }
+  
+  // Add CSS class if keyboard controls are disabled
+  if (this.disableKeyboardControls) {
+    $container.addClass('h5p-keyboard-disabled');
+  }
+  
   this.$videoWrapper.appendTo($container);
   this.$controls.appendTo($container);
 
@@ -806,6 +859,11 @@ InteractiveVideo.prototype.attach = function ($container) {
   onKey($container, [{
     key: Keys.M,
   }], (e) => {
+    // Skip if keyboard controls are disabled
+    if (that.disableKeyboardControls) {
+      return;
+    }
+    
     if (ignoreEventForShortcutKey(e, '$volume')) {
       return;
     }
@@ -817,6 +875,11 @@ InteractiveVideo.prototype.attach = function ($container) {
   onKey($container, [{
     key: Keys.K
   }], (e) => {
+    // Skip if keyboard controls are disabled
+    if (that.disableKeyboardControls) {
+      return;
+    }
+    
     // Skip textual input from user
     if (ignoreEventForShortcutKey(e, '$play')) {
       return;
@@ -927,6 +990,19 @@ InteractiveVideo.prototype.addControls = function () {
   const self = this;
   // Display splash screen
   this.addSplash();
+
+  // If controls are set to be hidden, don't show them
+  if (self.hideControls) {
+    // Add CSS class to hide controls
+    self.$container.addClass('h5p-hide-controls');
+    // Still need to initialize some control-related functionality for interactions
+    this.addSliderInteractions();
+    this.addBookmarks();
+    this.addEndscreenMarkers();
+    this.addBubbles();
+    this.trigger('controls');
+    return;
+  }
 
   this.attachControls(this.$controls.removeClass('hidden'));
 
@@ -3555,7 +3631,7 @@ InteractiveVideo.prototype.setDisabled = $element => {
  * @return {boolean}
  */
 InteractiveVideo.prototype.isDisabled = $element => {
-  return $element.attr('aria-disabled') === 'true';
+  return $element && $element.attr('aria-disabled') === 'true';
 };
 
 /**

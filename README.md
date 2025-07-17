@@ -1,8 +1,53 @@
-# H5P Interactive Video
+# H5P Interactive Video (Enhanced Fork)
 
 Put texts, tasks and other media on top of your video.
 
 [See it in action on H5P.org](https://h5p.org/interactive-video)
+
+## New Features in This Fork
+
+This fork adds two new behavioral control options to give admins more flexibility to control how users interact with interactive videos:
+
+### Hide Video Controls
+**Option**: `hideControls` (Boolean, default: false)
+
+Hide the entire video control bar (play/pause button, progress bar, volume, etc.) for a clean, minimalist video experience.
+
+**How it works:**
+- Video control bar is completely hidden via CSS
+- Interactions (bookmarks, endscreens, etc.) remain fully functional
+- Video can still be controlled programmatically
+- Keyboard shortcuts remain active (unless also disabled - see below)
+
+### Disable Keyboard Controls
+**Option**: `disableKeyboardControls` (Boolean, default: false)
+
+Disable keyboard shortcuts for video control while keeping the visual controls intact.
+
+**Disabled shortcuts:**
+- `K` key: Play/pause toggle
+- `M` key: Mute/unmute toggle
+
+**How it works:**
+- Keyboard event handlers exit early when disabled
+- Button tooltips don't show keyboard shortcut hints "(k)" and "(m)"
+- Visual controls remain fully functional
+- Other accessibility features (tab navigation, screen readers) are preserved
+
+### Configuration Options
+
+Both options are available in the "Behavioral settings" section of the H5P Interactive Video editor:
+
+```json
+{
+  "override": {
+    "hideControls": false,
+    "disableKeyboardControls": false
+  }
+}
+```
+
+## Original Documentation
 
 ## Contributing
 
@@ -26,17 +71,57 @@ to get the required modules. Then build the project using
 npm run build
 ```
 
-or
+or for development with auto-rebuild on changes:
 
 ```bash
 npm run watch
 ```
 
-You can then use [H5P cli](https://github.com/h5p/h5p-cli) to pack the library e.g. using
+### Creating an H5P Package
 
+After building, you have several options to create an H5P package:
+
+#### Option 1: Manual ZIP Creation (Recommended when CLI doesn't work)
+1. Ensure all files are built:
+   ```bash
+   npm run build
+   ```
+
+2. Create a ZIP file containing these files and folders:
+   ```
+   h5p-interactive-video/
+   ├── library.json
+   ├── semantics.json
+   ├── presave.js
+   ├── upgrades.js
+   ├── icon.svg
+   ├── dist/
+   │   ├── h5p-interactive-video.js
+   │   └── h5p-interactive-video.css
+   └── language/
+       ├── .en.json
+       ├── af.json
+       ├── ar.json
+       └── [all other language files...]
+   ```
+
+3. **Important**: Rename the ZIP file to `h5p-interactive-video-enhanced.h5p`
+
+4. The `.h5p` file is now ready to upload to your H5P platform!
+
+#### Option 2: Using H5P CLI (if available)
+First install the H5P CLI globally:
+```bash
+npm install -g h5p
 ```
-h5p pack -r <library folder> <output file>
+
+Then create the package:
+```bash
+h5p create interactive-video-enhanced.h5p
 ```
+
+#### Option 3: Using the H5P Hub
+Upload the built files directly through your H5P-enabled platform's content creation interface.
 
 Alternatively, you can arrange and zip files manually, but make sure to adhere to the [H5P specification](https://h5p.org/documentation/developers/h5p-specification).
 

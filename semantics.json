@@ -745,6 +745,22 @@
         "label": "Deactivate sound",
         "importance": "low",
         "description": "Enabling this option will deactivate the video's sound and prevent it from being switched on."
+      },
+      {
+        "name": "hideControls",
+        "type": "boolean",
+        "default": false,
+        "label": "Hide video controls",
+        "importance": "low",
+        "description": "Hide the video control bar (play/pause button, progress bar, etc.)."
+      },
+      {
+        "name": "disableKeyboardControls",
+        "type": "boolean",
+        "default": false,
+        "label": "Disable keyboard controls",
+        "importance": "low",
+        "description": "Disable keyboard shortcuts for video control (K for play/pause, M for mute/unmute). Users will only be able to control the video through the control bar."
       }
     ]
   },

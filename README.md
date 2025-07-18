@@ -1,4 +1,4 @@
-# H5P Interactive Video (Enhanced Fork)
+# H5P Interactive Video (Fork: Hide Video Controls/Disable Keyboard Controls)
 
 Put texts, tasks and other media on top of your video.
 

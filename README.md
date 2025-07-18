@@ -4,7 +4,7 @@ Put texts, tasks and other media on top of your video.
 
 [See it in action on H5P.org](https://h5p.org/interactive-video)
 
-## New Features in This Fork
+## New Features in This Fork (WIP - Functionality cannot be guaranteed!)
 
 This fork adds two new behavioral control options to give admins more flexibility to control how users interact with interactive videos:
 
